@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coevas Advanced Systems</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="container">
+  <h1>Coevas Panel</h1>
+
+  <input id="url" placeholder="Paste YouTube link here" />
+
+  <select id="quality">
+    <option value="1080">1080p</option>
+    <option value="720">720p</option>
+    <option value="480">480p</option>
+    <option value="audio">MP3</option>
+  </select>
+
+  <button id="download">Download</button>
+
+  <div id="progress">
+    <div id="bar"></div>
+  </div>
+
+  <p id="status"></p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
