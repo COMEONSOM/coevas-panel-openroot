@@ -10,21 +10,66 @@
 <div class="container">
   <h1>Coevas Panel</h1>
 
-  <input id="url" placeholder="Paste YouTube link here" />
+  <!-- URL INPUT -->
+  <input id="url" placeholder="Paste link here to Download" />
 
+  <!-- PLATFORM BADGE -->
+  <div class="platform">
+    <img
+      id="platformIcon"
+      src="/icons/default.svg"
+      height="28"
+      alt="Platform"
+    />
+    <span id="platformText">Paste a link</span>
+  </div>
+
+  <!-- FILE INFO (SIZE / CODEC / QUALITY PREVIEW) -->
+  <div id="fileInfo" class="file-info" style="display:none;">
+    <div>📐 <strong>Resolution:</strong> <span id="fileResolution">—</span></div>
+    <div>
+      🎞 <strong>Codec:</strong>
+      <span id="codecBadge" class="codec-badge">—</span>
+    </div>
+    <div>📦 <strong>File size:</strong> <span id="fileSize">—</span></div>
+  </div>
+
+  <!-- QUALITY SELECT -->
   <select id="quality">
-    <option value="1080">1080p</option>
+    <option value="2160">4K (2160p)</option>
+    <option value="1440">2K (1440p)</option>
+    <option value="1080" selected>1080p</option>
     <option value="720">720p</option>
     <option value="480">480p</option>
     <option value="audio">MP3</option>
   </select>
 
-  <button id="download">Download</button>
-
-  <div id="progress">
-    <div id="bar"></div>
+  <!-- MAX QUALITY TOGGLE -->
+  <div class="toggle">
+    <label>
+      <input type="checkbox" id="maxQuality" />
+      Max quality (AV1 allowed)
+    </label>
+    <small class="hint">
+      AV1 gives best quality for 2K / 4K but may not play on all devices.
+    </small>
   </div>
 
+  <!-- ACTION BUTTON -->
+  <button id="download">Download</button>
+
+  <!-- LOGS (ONLY SHOWN WHILE DOWNLOADING) -->
+  <pre id="logs" class="log-box" style="display:none;"></pre>
+
+  <!-- PROGRESS BAR (ADVANCED) -->
+  <div id="progress" style="display:none;">
+    <div class="progress-track">
+      <div id="bar"></div>
+      <span class="progress-overlay" id="percent">0%</span>
+    </div>
+  </div>
+
+  <!-- STATUS -->
   <p id="status"></p>
 </div>
 
