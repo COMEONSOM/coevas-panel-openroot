@@ -1,9 +1,16 @@
 const btn = document.getElementById("download");
 const status = document.getElementById("status");
-const bar = document.getElementById("bar");
+
 const progress = document.getElementById("progress");
+const bar = document.getElementById("bar");
+const percentText = document.getElementById("percent");
+
 const logsBox = document.getElementById("logs");
 const fileInfo = document.getElementById("fileInfo");
+
+const fileResolution = document.getElementById("fileResolution");
+const fileSize = document.getElementById("fileSize");
+const codecBadge = document.getElementById("codecBadge");
 
 const urlInput = document.getElementById("url");
 const qualitySelect = document.getElementById("quality");
@@ -22,35 +29,25 @@ function detectPlatform(url) {
   const u = url.toLowerCase();
 
   if (u.includes("youtube.com") || u.includes("youtu.be")) {
-    return {
-      name: "YouTube",
-      icon: "/icons/youtube.svg"
-    };
+    return { name: "YouTube", icon: "/icons/youtube.svg" };
   }
 
   if (u.includes("facebook.com") || u.includes("fb.watch")) {
-    return {
-      name: "Facebook",
-      icon: "/icons/facebook.svg"
-    };
+    return { name: "Facebook", icon: "/icons/facebook.svg" };
   }
 
-  return {
-    name: "Paste a link",
-    icon: "/icons/default.svg"
-  };
+  return { name: "Paste a link", icon: "/icons/default.svg" };
 }
 
 urlInput.addEventListener("input", () => {
   const { name, icon } = detectPlatform(urlInput.value);
   platformIcon.src = icon;
   platformText.textContent = name;
-
   fileInfo.style.display = "none";
 });
 
 /* =====================================================
-   PROBE VIDEO INFO (SIZE / CODEC / RESOLUTION)
+   PROBE VIDEO INFO
 ===================================================== */
 async function fetchInfo(url, quality, allowAV1) {
   try {
@@ -64,12 +61,18 @@ async function fetchInfo(url, quality, allowAV1) {
 
     const data = await res.json();
 
+    fileResolution.textContent = data.resolution || "—";
+    fileSize.textContent = data.size || "—";
+
+    codecBadge.textContent = data.codec || "—";
+    codecBadge.className = "codec-badge";
+
+    const c = (data.codec || "").toLowerCase();
+    if (c.includes("264")) codecBadge.classList.add("h264");
+    else if (c.includes("vp9")) codecBadge.classList.add("vp9");
+    else if (c.includes("av1")) codecBadge.classList.add("av1");
+
     fileInfo.style.display = "block";
-    fileInfo.innerHTML = `
-      📐 <strong>Resolution:</strong> ${data.resolution}<br/>
-      🎞 <strong>Codec:</strong> <span class="badge">${data.codec}</span><br/>
-      📦 <strong>Size:</strong> ${data.size}
-    `;
   } catch {
     fileInfo.style.display = "none";
   }
@@ -110,13 +113,14 @@ btn.onclick = async () => {
     return;
   }
 
-  // Preview info
+  // Pre-fetch info
   await fetchInfo(url, quality, allowAV1);
 
   // UI state
   btn.style.display = "none";
   progress.style.display = "block";
   bar.style.width = "0%";
+  percentText.textContent = "0%";
   status.textContent = "⬇ Downloading…";
 
   // Progress SSE
@@ -124,7 +128,7 @@ btn.onclick = async () => {
   progressSource.onmessage = (e) => {
     const p = Math.min(100, Number(e.data));
     bar.style.width = p + "%";
-    bar.textContent = p + "%";
+    percentText.textContent = p + "%";
   };
 
   startLogs();

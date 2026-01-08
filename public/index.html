@@ -18,7 +18,6 @@
     <img
       id="platformIcon"
       src="/icons/default.svg"
-      height="28"
       alt="Platform"
     />
     <span id="platformText">Paste a link</span>
@@ -26,12 +25,18 @@
 
   <!-- FILE INFO (SIZE / CODEC / QUALITY PREVIEW) -->
   <div id="fileInfo" class="file-info" style="display:none;">
-    <div>📐 <strong>Resolution:</strong> <span id="fileResolution">—</span></div>
+    <div>
+      📐 <strong>Resolution:</strong>
+      <span id="fileResolution">—</span>
+    </div>
     <div>
       🎞 <strong>Codec:</strong>
       <span id="codecBadge" class="codec-badge">—</span>
     </div>
-    <div>📦 <strong>File size:</strong> <span id="fileSize">—</span></div>
+    <div>
+      📦 <strong>File size:</strong>
+      <span id="fileSize">—</span>
+    </div>
   </div>
 
   <!-- QUALITY SELECT -->
@@ -58,14 +63,25 @@
   <!-- ACTION BUTTON -->
   <button id="download">Download</button>
 
+  <!-- CANCEL BUTTON (shown only while downloading) -->
+  <button id="cancel" class="cancel-btn" style="display:none;">
+    Cancel
+  </button>
+
   <!-- LOGS (ONLY SHOWN WHILE DOWNLOADING) -->
   <pre id="logs" class="log-box" style="display:none;"></pre>
 
-  <!-- PROGRESS BAR (ADVANCED) -->
+  <!-- ADVANCED PROGRESS BAR -->
   <div id="progress" style="display:none;">
     <div class="progress-track">
       <div id="bar"></div>
       <span class="progress-overlay" id="percent">0%</span>
+    </div>
+
+    <!-- SPEED + ETA -->
+    <div class="progress-meta">
+      <span>⚡ <span id="speed">—</span></span>
+      <span>⏱ <span id="eta">—</span></span>
     </div>
   </div>
 
