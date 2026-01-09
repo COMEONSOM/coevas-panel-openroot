@@ -1,15 +1,13 @@
 FROM node:20-slim
 
-# Install Python + ffmpeg
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
-    python3-pip \
     ffmpeg \
+    yt-dlp \
     curl \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
-
-# Install yt-dlp
-RUN pip3 install -U yt-dlp
 
 WORKDIR /app
 COPY . .
